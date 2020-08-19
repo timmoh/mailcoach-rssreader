@@ -22,7 +22,7 @@ class MailcoachRssReaderServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__ . '/../config/mailcoach-rss-reader.php' => config_path('mailcoach-rss-reader.php'),
         ],
-            'config');
+            'mailcoach-rss-reader-config');
     }
 
     /**

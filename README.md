@@ -14,7 +14,7 @@ composer require timmoh/mailcoach-api-client
 ### Publish Resources:
 All Resources:
 ```bash
-php artisan vendor:publish --tag=mailcoach-rssreader
+php artisan vendor:publish --tag=mailcoach-rss-reader-config
 ```
 
 ## Usage
