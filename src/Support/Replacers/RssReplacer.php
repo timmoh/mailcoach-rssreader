@@ -115,7 +115,8 @@ class RssReplacer implements Replacer {
     }
 
     private function findRssBlock(string $text) {
-        $regexUrl = '(https?:\/\/[www\.]?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b[-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)';
+        //$regexUrl = '(https?:\/\/[www\.]?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b[-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)';
+        $regexUrl = '(https?:\/\/[www\.]?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b[-a-zA-Z0-9()@%_\+.~#?&\/\/=]*)';
         $regex    = '::RSSBLOCK:' . $regexUrl . '::(.*)::RSSBLOCKEND::';
         if (preg_match('/' . $regex . '/', $text, $rssBlock) === false) {
             return $text;
