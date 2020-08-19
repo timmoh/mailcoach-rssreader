@@ -1,0 +1,67 @@
+{
+    "name": "timmoh/mailcoach-rssreader",
+    "description": "A rss client for Mailcoach API from Spatie",
+    "keywords": [
+        "timmoh",
+        "mailcoach",
+        "mailcoach-rss",
+        "rss"
+    ],
+    "homepage": "https://github.com/timmoh/mailcoach-rssreader",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Timo Dörsching",
+            "email": "timo@doersching.net",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.mailcoach.app"
+        }
+    ],
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.4",
+        "illuminate/support": "^7.0",
+        "spatie/laravel-mailcoach": "^2.0.0",
+        "simplepie/simplepie": "^1.5"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "fzaninotto/faker": "^1.9",
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^9.0",
+        "predis/predis": "^1.1",
+        "spatie/phpunit-snapshot-assertions": "^4.0",
+        "spatie/test-time": "^1.1",
+        "symfony/var-dumper": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Timmoh\\MailcoachRssReader\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Timmoh\\MailcoachRssReader\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Timmoh\\MailcoachRssReader\\MailcoachRssReaderServiceProvider"
+            ]
+        }
+    }
+}
