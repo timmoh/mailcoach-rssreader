@@ -3,20 +3,29 @@
 namespace Timmoh\MailcoachRssReader\Tests;
 
 use CreateMailcoachTables;
+use DOMDocument;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\TestTime\TestTime;
 use Symfony\Component\Process\Process;
+use Illuminate\Foundation\Testing\WithFaker;
 use Timmoh\MailcoachRssReader\MailcoachRssReader;
 use Timmoh\MailcoachRssReader\MailcoachRssReaderServiceProvider;
 
 class TestCase extends Orchestra {
+    use WithFaker;
+
     /** @var Process */
-    protected  $rssHostProcess;
+    protected static $rssHostProcess;
     /**
      * @var string
      */
     protected $xmlUrl;
+
+    /**
+     * @var DOMDocument
+     */
+    protected $xml;
 
 
     public function __construct($name = null, array $data = [], $dataName = '') {
@@ -68,6 +77,19 @@ class TestCase extends Orchestra {
     }
 
 
+    private function stripWhitespace(string $text){
+        $contentWithoutWhitespace = preg_replace('/\s/', '', $text);
+        $contentWithoutWhitespace = str_replace(PHP_EOL, '', $contentWithoutWhitespace);
+        return $contentWithoutWhitespace;
+    }
+
+    public function assertHtmlWithoutWhitespace(string $expected, string $actual){
+        $expected = $this->stripWhitespace($expected);
+        $actual = $this->stripWhitespace($actual);
+
+        $this->assertEquals($expected, $actual);
+    }
+
     public function assertMatchesHtmlSnapshotWithoutWhitespace(string $content)
     {
         $contentWithoutWhitespace = preg_replace('/\s/', '', $content);
@@ -80,14 +102,109 @@ class TestCase extends Orchestra {
 
 
     public function startRssProcess() {
+        $this->generateXmlFile();
         $host = 'localhost:8123';
-        $this->xmlUrl = 'http://'.$host.'/rss.xml';
-        $this->rssHostProcess = new Process(['php', '-S', $host, '-t', './tests/resources']);
-        $this->rssHostProcess->start();
+        $this->xmlUrl = 'http://'.$host.'/rss_gen.xml';
+        self::$rssHostProcess = new Process(['php', '-S', $host, '-t', __DIR__.'/resources']);
+        self::$rssHostProcess->start();
         usleep(500000);
     }
 
     public function stopRssProcess(){
-        $this->rssHostProcess->stop();
+        self::$rssHostProcess->stop();
+    }
+
+
+
+    private function generateXmlFile(int $itemsCount = 10){
+
+        $xml = new DOMDocument('1.0', 'utf-8');
+        $xml->formatOutput = true;
+        $rss = $xml->createElement('rss');
+        $rss->setAttribute('version', '2.0');
+        $xml->appendChild($rss);
+
+        $channel = $xml->createElement('channel');
+        $rss->appendChild($channel);
+
+        // Head des Feeds
+        $head = $xml->createElement('title', $this->faker->text);
+        $channel->appendChild($head);
+
+        $head = $xml->createElement('description', $this->faker->text);
+        $channel->appendChild($head);
+
+        $head = $xml->createElement('language', 'de');
+        $channel->appendChild($head);
+
+        $head = $xml->createElement('link', $this->faker->url);
+        $channel->appendChild($head);
+
+
+//image
+        $image = $xml->createElement('image');
+        $channel->appendChild($image);
+        $data = $xml->createElement('url', $this->faker->imageUrl());
+        $image->appendChild($data);
+        $data = $xml->createElement('title', $this->faker->text);
+        $image->appendChild($data);
+        $data = $xml->createElement('link', $this->faker->url);
+        $image->appendChild($data);
+        $data = $xml->createElement('width', $this->faker->randomDigit);
+        $image->appendChild($data);
+        $data = $xml->createElement('height', $this->faker->randomDigit);
+        $image->appendChild($data);
+        $data = $xml->createElement('description', $this->faker->text);
+        $image->appendChild($data);
+
+
+
+        $head = $xml->createElement('category', $this->faker->title);
+        $channel->appendChild($head);
+
+        // Aktuelle Zeit, falls time() in MESZ ist, muss 1 Stunde abgezogen werden
+        $head = $xml->createElement('lastBuildDate', date("D, j M Y H:i:s ", $this->faker->unixTime()).' GMT');
+        $channel->appendChild($head);
+
+
+        for($i=0;$i<$itemsCount;$i++){
+
+            $head = $xml->createElement('comments', $this->faker->url);
+            $channel->appendChild($head);
+
+            $item = $xml->createElement('item');
+            $channel->appendChild($item);
+
+            $data = $xml->createElement('title', utf8_encode($this->faker->text(50)));
+            $item->appendChild($data);
+
+            $data = $xml->createElement('description', utf8_encode($this->faker->text));
+            $item->appendChild($data);
+
+            $data = $xml->createElement('thumbnail', $this->faker->imageUrl());
+            $item->appendChild($data);
+
+            $data = $xml->createElement('link', $this->faker->url);
+            $item->appendChild($data);
+
+            $data = $xml->createElement('creator', $this->faker->name);
+            $item->appendChild($data);
+
+            $author = $xml->createElement('author');
+            $item->appendChild($author);
+            $data = $xml->createElement('name', $this->faker->name);
+            $author->appendChild($data);
+            $data = $xml->createElement('email', $this->faker->email);
+            $author->appendChild($data);
+
+            $data = $xml->createElement('pubDate', date("D, j M Y H:i:s ", $this->faker->unixTime()).' GMT');
+            $item->appendChild($data);
+
+            $data = $xml->createElement('guid', $this->faker->url);
+            $item->appendChild($data);
+        }
+        $this->xml = $xml;
+        $xml->save(__DIR__.'/resources/rss_gen.xml');
+
     }
 }
