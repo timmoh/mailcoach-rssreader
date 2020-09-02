@@ -47,8 +47,7 @@ Add RssReplacer::class to config/mailcoach.php
 			<author>::RSSITEMAUTHOR::</author>
 			<category>::RSSITEMCATEGORIES::</category>
 			<description>::RSSITEMDESCRIPTION::</description>
-			<thumbnail>::RSSITEMTHUMBNAIL::</thumbnail>
-			<content:encoded>::RSSITEMCONTENT::</content:encoded>
+			<thumbnail>::RSSITEMTHUMBNAILURL::</thumbnail>
 		</item>
 	</channel>
 </rss>
@@ -58,18 +57,10 @@ Add RssReplacer::class to config/mailcoach.php
 Used XML:
 ```xml
 <item>
-    <title>RSS Solutions for Restaurants</title>
-    <description>&lt;b&gt;FeedForAll &lt;/b&gt;helps Restaurant&apos;s communicate with customers. Let your customers know the latest specials
-        or events.&lt;br&gt;
-        &lt;br&gt;
-        RSS feed uses include:&lt;br&gt;
-        &lt;i&gt;&lt;font color=&quot;#FF0000&quot;&gt;Daily Specials &lt;br&gt;
-        Entertainment &lt;br&gt;
-        Calendar of Events &lt;/i&gt;&lt;/font&gt;
-    </description>
+    <title>My Rss item title</title>
+    <description>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam</description>
     <thumbnail>http://www.foo.bar/mythumb.jpg</thumbnail>
-    <link>http://www.foo.bar/restaurant.htm</link>
-    <category domain="www.dmoz.com">Computers/Software/Internet/Site Management/Content Management</category>
+    <link>http://www.foo.bar/xyz.htm</link>
     <comments>http://www.foo.bar/forum</comments>
     <pubDate>Tue, 19 Oct 2004 11:09:11 -0400</pubDate>
     <creator>Mr Super</creator>
@@ -77,15 +68,15 @@ Used XML:
 ```
 Replacer Code:
 ```html
-<div>::RSSBLOCK:'.$this->xmlUrl.'::::RSSITEMSBLOCK:1::<span class="title"><a href="::RSSITEMURL::">::RSSITEMTITLE::</a></span><span class="date">::RSSITEMDATE:#y-m-d h:i#::</span><p class="content">::RSSITEMCONTENT::</p>::RSSITEMSBLOCKEND::::RSSBLOCKEND::</div>
+<div>::RSSBLOCK|https://www.xyz.de/zxy.xml|::::RSSITEMSBLOCK|1::<span class="title"><a href="::RSSITEMURL::">::RSSITEMTITLE::</a></span><span class="date">::RSSITEMDATE:|y-m-d h:i|::</span><img src="::RSSITEMTHUMBNAILURL::"><span class="description">::RSSITEMDESCRIPTION::</span>::RSSITEMSBLOCKEND::::RSSBLOCKEND::</div>
 ```
 Output:
 ```html
 <div>
-    <span class="title"><a href="http://www.foo.bar/restaurant.htm">RSS Solutions for Restaurants</a></span>
+    <span class="title"><a href="http://www.foo.bar/xyz.htm">My Rss item title</a></span>
     <span class="date">2004-10-19 11:09</span>
-    <p class="content">RSS is a fascinating technology. The uses for RSS are expanding daily. Take a closer look at how various industries are using the
-            benefits of RSS in their businesses.</p>
+    <img src="http://www.foo.bar/mythumb.jpg">
+    <span class="content">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam</span>
 </div>
 ```
 

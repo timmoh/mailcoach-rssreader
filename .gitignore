@@ -12,3 +12,4 @@ mix-manifest.json
 .phpunit.result.cache
 .idea/
 .idea
+/tests/resources/rss_gen.xml
