@@ -15,12 +15,17 @@ class MailcoachRssReaderTest extends TestCase {
         $this->assertInstanceOf(MailcoachRssReader::class, $this->app->make('mailcoach-rss-reader'));
     }
 
-    public function test_ReadRss() {
+    /**
+     * @test
+     */
+    public function readRss() {
         /** @var SimplePie $rss */
         $rss = MailcoachRssReaderFacade::read($this->xmlUrl);
 
-        $this->assertEquals('FeedForAll Sample Feed', $rss->get_title());
+        $items = $this->xml->getElementsByTagName("item");
+        $this->assertEquals($this->xml->getElementsByTagName("title")->item(0)->nodeValue, $rss->get_title());
         $this->assertObjectHasAttribute('term', $rss->get_category());
-        $this->assertEquals(9, $rss->get_item_quantity());
+        $this->assertEquals($this->xml->getElementsByTagName("category")->item(0)->nodeValue, $rss->get_category()->get_term());
+        $this->assertEquals(count($items), $rss->get_item_quantity());
     }
 }

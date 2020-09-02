@@ -159,7 +159,7 @@ class TestCase extends Orchestra {
 
 
 
-        $head = $xml->createElement('category', $this->faker->title);
+        $head = $xml->createElement('category', $this->faker->words(1,true));
         $channel->appendChild($head);
 
         // Aktuelle Zeit, falls time() in MESZ ist, muss 1 Stunde abgezogen werden
@@ -181,7 +181,13 @@ class TestCase extends Orchestra {
             $data = $xml->createElement('description', utf8_encode($this->faker->text));
             $item->appendChild($data);
 
-            $data = $xml->createElement('thumbnail', $this->faker->imageUrl());
+
+            $data = $xml->createElement('enclosure');
+            $data->setAttribute('url',$this->faker->imageUrl());
+            $data->setAttribute('type','image/jpeg');
+            $data->setAttribute('medium','image');
+            $data->setAttribute('height',150);
+            $data->setAttribute('width',150);
             $item->appendChild($data);
 
             $data = $xml->createElement('link', $this->faker->url);
@@ -190,12 +196,23 @@ class TestCase extends Orchestra {
             $data = $xml->createElement('creator', $this->faker->name);
             $item->appendChild($data);
 
-            $author = $xml->createElement('author');
+            $data = $xml->createElement('dc', $this->faker->name);
+            //$data->
+            $item->appendChild($data);
+
+
+            $head = $xml->createElement('category', $this->faker->words(1,true));
+            $item->appendChild($head);
+
+            $author = $xml->createElement('author', $this->faker->email);
+            $item->appendChild($author);
+
+            /*$author = $xml->createElement('author');
             $item->appendChild($author);
             $data = $xml->createElement('name', $this->faker->name);
             $author->appendChild($data);
             $data = $xml->createElement('email', $this->faker->email);
-            $author->appendChild($data);
+            $author->appendChild($data);*/
 
             $data = $xml->createElement('pubDate', date("D, j M Y H:i:s ", $this->faker->unixTime()).' GMT');
             $item->appendChild($data);

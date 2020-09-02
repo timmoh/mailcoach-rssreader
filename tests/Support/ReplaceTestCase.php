@@ -27,6 +27,11 @@ class ReplaceTestCase extends TestCase {
         $campaign->save();
     }
 
+
+    protected function htmlbody($content){
+        return $expectedHtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd" ><html><body><p>' . $content . '</p></body></html>';
+    }
+
     protected function ensureValidHtml(Campaign $campaign)
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
@@ -63,10 +68,11 @@ class ReplaceTestCase extends TestCase {
         }
 
 
-        $newText = collect($this->replacerClasses)
+        $campaign->email_html = collect($this->replacerClasses)
             ->map(fn(string $className) => app($className))
             ->filter(fn(object $class) => $class instanceof Replacer)
             ->reduce(fn(string $html, Replacer $replacer) => $replacer->replace($html, $campaign), $campaign->email_html);
+        $campaign->save();
     }
 
     private function getReplacerClassesInFolder() {
