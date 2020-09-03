@@ -189,7 +189,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase {
     public function rssitem_fullhtml() {
 
         $dateformat = 'Y-m-d h:i';
-        $html       = '::RSSBLOCK|' . $this->xmlUrl . '|::::RSSITEMSBLOCK|1::<span class="title"><a href="::RSSITEMURL::">::RSSITEMTITLE::</a></span><span class="date">::RSSITEMDATE|' . $dateformat . '|::</span><span class="description">::RSSITEMDESCRIPTION::</span><span class="author">::RSSITEMAUTHOR::</span>::RSSITEMSBLOCKEND::::RSSBLOCKEND::';
+        $html       = '3rd::RSSBLOCK|' . $this->xmlUrl . '|::::RSSITEMSBLOCK|1::<span class="title"><a href="::RSSITEMURL::">::RSSITEMTITLE::</a></span><span class="date">::RSSITEMDATE|' . $dateformat . '|::</span><span class="description">::RSSITEMDESCRIPTION::</span><span class="author">::RSSITEMAUTHOR::</span>::RSSITEMSBLOCKEND::::RSSBLOCKEND::';
 
         //axpected values
         $title       = $this->xml->getElementsByTagName("item")->item(0)->getElementsByTagName("title")->item(0)->nodeValue;
