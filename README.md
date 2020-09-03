@@ -1,4 +1,4 @@
-# Mailcoach Custom Placeholder
+# Mailcoach RSS Reader / Replacer
 
 RSS Feed Reader & Replacer for Spatie's awesome Mailcoach (https://mailcoach.app/)
 Fetch, parse and add automatically RSS Feed to your campaign 
@@ -8,7 +8,7 @@ Fetch, parse and add automatically RSS Feed to your campaign
 You can install the package via composer:
 
 ```bash
-composer require timmoh/mailcoach-api-client
+composer require timmoh/mailcoach-rssreader
 ```
 
 ### Publish Resources:
