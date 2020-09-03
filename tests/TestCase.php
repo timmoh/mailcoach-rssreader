@@ -4,19 +4,21 @@ namespace Timmoh\MailcoachRssReader\Tests;
 
 use CreateMailcoachTables;
 use DOMDocument;
+use Illuminate\Foundation\Testing\WithFaker;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\TestTime\TestTime;
 use Symfony\Component\Process\Process;
-use Illuminate\Foundation\Testing\WithFaker;
 use Timmoh\MailcoachRssReader\MailcoachRssReader;
 use Timmoh\MailcoachRssReader\MailcoachRssReaderServiceProvider;
 
-class TestCase extends Orchestra {
+class TestCase extends Orchestra
+{
     use WithFaker;
 
     /** @var Process */
     protected static $rssHostProcess;
+
     /**
      * @var string
      */
@@ -27,12 +29,13 @@ class TestCase extends Orchestra {
      */
     protected $xml;
 
-
-    public function __construct($name = null, array $data = [], $dataName = '') {
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
         parent::__construct($name, $data, $dataName);
     }
 
-    public function setUp(): void {
+    public function setUp(): void
+    {
         parent::setUp();
 
         $this->withFactories(__DIR__ . '/../database/factories');
@@ -44,46 +47,53 @@ class TestCase extends Orchestra {
         TestTime::freeze();
     }
 
-    public function tearDown(): void {
+    public function tearDown(): void
+    {
         parent::tearDown();
         $this->stopRssProcess();
     }
 
-    protected function getPackageProviders($app) {
+    protected function getPackageProviders($app)
+    {
         return [
             MailcoachServiceProvider::class,
             MailcoachRssReaderServiceProvider::class,
         ];
     }
 
-    protected function getEnvironmentSetUp($app) {
+    protected function getEnvironmentSetUp($app)
+    {
         $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite',
+        $app['config']->set(
+            'database.connections.sqlite',
             [
-                'driver'   => 'sqlite',
+                'driver' => 'sqlite',
                 'database' => ':memory:',
-                'prefix'   => '',
-            ]);
+                'prefix' => '',
+            ]
+        );
 
         include_once __DIR__ . '/../vendor/spatie/laravel-mailcoach/database/migrations/create_mailcoach_tables.php.stub';
         (new CreateMailcoachTables())->up();
-
     }
 
-    protected function getPackageAliases($app) {
+    protected function getPackageAliases($app)
+    {
         return [
             'MailcoachRssReader' => MailcoachRssReader::class,
         ];
     }
 
-
-    private function stripWhitespace(string $text){
+    private function stripWhitespace(string $text)
+    {
         $contentWithoutWhitespace = preg_replace('/\s/', '', $text);
         $contentWithoutWhitespace = str_replace(PHP_EOL, '', $contentWithoutWhitespace);
+
         return $contentWithoutWhitespace;
     }
 
-    public function assertHtmlWithoutWhitespace(string $expected, string $actual){
+    public function assertHtmlWithoutWhitespace(string $expected, string $actual)
+    {
         $expected = $this->stripWhitespace($expected);
         $actual = $this->stripWhitespace($actual);
 
@@ -99,9 +109,8 @@ class TestCase extends Orchestra {
         $this->assertMatchesHtmlSnapshot($contentWithoutWhitespace);
     }
 
-
-
-    public function startRssProcess() {
+    public function startRssProcess()
+    {
         $this->generateXmlFile();
         $host = 'localhost:8123';
         $this->xmlUrl = 'http://'.$host.'/rss_gen.xml';
@@ -110,14 +119,13 @@ class TestCase extends Orchestra {
         usleep(500000);
     }
 
-    public function stopRssProcess(){
+    public function stopRssProcess()
+    {
         self::$rssHostProcess->stop();
     }
 
-
-
-    private function generateXmlFile(int $itemsCount = 10){
-
+    private function generateXmlFile(int $itemsCount = 10)
+    {
         $xml = new DOMDocument('1.0', 'utf-8');
         $xml->formatOutput = true;
         $rss = $xml->createElement('rss');
@@ -141,7 +149,7 @@ class TestCase extends Orchestra {
         $channel->appendChild($head);
 
 
-//image
+        //image
         $image = $xml->createElement('image');
         $channel->appendChild($image);
         $data = $xml->createElement('url', $this->faker->imageUrl());
@@ -159,7 +167,7 @@ class TestCase extends Orchestra {
 
 
 
-        $head = $xml->createElement('category', $this->faker->words(1,true));
+        $head = $xml->createElement('category', $this->faker->words(1, true));
         $channel->appendChild($head);
 
         // Aktuelle Zeit, falls time() in MESZ ist, muss 1 Stunde abgezogen werden
@@ -167,8 +175,7 @@ class TestCase extends Orchestra {
         $channel->appendChild($head);
 
 
-        for($i=0;$i<$itemsCount;$i++){
-
+        for ($i = 0;$i < $itemsCount;$i++) {
             $head = $xml->createElement('comments', $this->faker->url);
             $channel->appendChild($head);
 
@@ -183,11 +190,11 @@ class TestCase extends Orchestra {
 
 
             $data = $xml->createElement('enclosure');
-            $data->setAttribute('url',$this->faker->imageUrl());
-            $data->setAttribute('type','image/jpeg');
-            $data->setAttribute('medium','image');
-            $data->setAttribute('height',150);
-            $data->setAttribute('width',150);
+            $data->setAttribute('url', $this->faker->imageUrl());
+            $data->setAttribute('type', 'image/jpeg');
+            $data->setAttribute('medium', 'image');
+            $data->setAttribute('height', 150);
+            $data->setAttribute('width', 150);
             $item->appendChild($data);
 
             $data = $xml->createElement('link', $this->faker->url);
@@ -201,7 +208,7 @@ class TestCase extends Orchestra {
             $item->appendChild($data);
 
 
-            $head = $xml->createElement('category', $this->faker->words(1,true));
+            $head = $xml->createElement('category', $this->faker->words(1, true));
             $item->appendChild($head);
 
             $author = $xml->createElement('author', $this->faker->email);
@@ -222,6 +229,5 @@ class TestCase extends Orchestra {
         }
         $this->xml = $xml;
         $xml->save(__DIR__.'/resources/rss_gen.xml');
-
     }
 }

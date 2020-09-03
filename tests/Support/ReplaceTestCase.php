@@ -10,16 +10,15 @@ use RecursiveIteratorIterator;
 use RegexIterator;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Models\Campaign;
-use Symfony\Component\Process\Process;
-use Timmoh\MailcoachRssReader\Tests\TestCase;
 use Spatie\Mailcoach\Support\Replacers\Replacer;
+use Timmoh\MailcoachRssReader\Tests\TestCase;
 
-class ReplaceTestCase extends TestCase {
+class ReplaceTestCase extends TestCase
+{
+    protected $replacerClasses = [];
 
-    protected $replacerClasses =[];
-
-
-    public function execute(Campaign $campaign) {
+    public function execute(Campaign $campaign)
+    {
         $this->ensureValidHtml($campaign);
         $this->ensureEmailHtmlHasSingleRootElement($campaign);
         $campaign->email_html = $campaign->htmlWithInlinedCss();
@@ -27,8 +26,8 @@ class ReplaceTestCase extends TestCase {
         $campaign->save();
     }
 
-
-    protected function htmlbody($content){
+    protected function htmlbody($content)
+    {
         return $expectedHtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd" ><html><body><p>' . $content . '</p></body></html>';
     }
 
@@ -62,31 +61,33 @@ class ReplaceTestCase extends TestCase {
         }
     }
 
-    public function replacePlaceholders(Campaign $campaign): void {
-        if(empty($this->replacerClasses)){
+    public function replacePlaceholders(Campaign $campaign): void
+    {
+        if (empty($this->replacerClasses)) {
             $this->replacerClasses = $this->getReplacerClassesInFolder();
         }
 
 
         $campaign->email_html = collect($this->replacerClasses)
-            ->map(fn(string $className) => app($className))
-            ->filter(fn(object $class) => $class instanceof Replacer)
-            ->reduce(fn(string $html, Replacer $replacer) => $replacer->replace($html, $campaign), $campaign->email_html);
+            ->map(fn (string $className) => app($className))
+            ->filter(fn (object $class) => $class instanceof Replacer)
+            ->reduce(fn (string $html, Replacer $replacer) => $replacer->replace($html, $campaign), $campaign->email_html);
         $campaign->save();
     }
 
-    private function getReplacerClassesInFolder() {
-        $path  = __DIR__ . '/../../src/Support/Replacers';
+    private function getReplacerClassesInFolder()
+    {
+        $path = __DIR__ . '/../../src/Support/Replacers';
         $fqcns = [];
 
         $allFiles = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
         $phpFiles = new RegexIterator($allFiles, '/\.php$/');
         foreach ($phpFiles as $phpFile) {
-            $content   = file_get_contents($phpFile->getRealPath());
-            $tokens    = token_get_all($content);
+            $content = file_get_contents($phpFile->getRealPath());
+            $tokens = token_get_all($content);
             $namespace = '';
             for ($index = 0; isset($tokens[$index]); $index++) {
-                if (!isset($tokens[$index][0])) {
+                if (! isset($tokens[$index][0])) {
                     continue;
                 }
                 if (T_NAMESPACE === $tokens[$index][0]) {
@@ -96,7 +97,7 @@ class ReplaceTestCase extends TestCase {
                     }
                 }
                 if (T_CLASS === $tokens[$index][0] && T_WHITESPACE === $tokens[$index + 1][0] && T_STRING === $tokens[$index + 2][0]) {
-                    $index   += 2; // Skip class keyword and whitespace
+                    $index += 2; // Skip class keyword and whitespace
                     $fqcns[] = $namespace . '\\' . $tokens[$index][1];
 
                     # break if you have one class per file (psr-4 compliant)
@@ -105,7 +106,7 @@ class ReplaceTestCase extends TestCase {
                 }
             }
         }
+
         return $fqcns;
     }
 }
-

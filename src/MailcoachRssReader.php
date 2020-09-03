@@ -6,8 +6,8 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\Config;
 use SimplePie;
 
-class MailcoachRssReader {
-
+class MailcoachRssReader
+{
     /**
      * @var Container
      */
@@ -18,7 +18,8 @@ class MailcoachRssReader {
      *
      * @param Container $app
      */
-    public function __construct(Container $app) {
+    public function __construct(Container $app)
+    {
         $this->app = $app;
     }
 
@@ -30,7 +31,8 @@ class MailcoachRssReader {
      *
      * @return SimplePie
      */
-    public function read($url, $configuration = 'default') {
+    public function read($url, $configuration = 'default')
+    {
         // Setup the object
         $sp = $this->app->make(SimplePie::class);
 
@@ -68,12 +70,13 @@ class MailcoachRssReader {
      *
      * @return string The folder that is being cached to
      */
-    private function setupCacheDirectory($configuration) {
+    private function setupCacheDirectory($configuration)
+    {
         // Check if caching is enabled
         $cache_enabled = $this->readConfig($configuration, 'cache.enabled', false);
 
         // Is caching enabled?
-        if (!$cache_enabled) {
+        if (! $cache_enabled) {
             // It is disabled, so skip it
             return false;
         }
@@ -88,7 +91,7 @@ class MailcoachRssReader {
         }
 
         // Check if the folder is available
-        if (!file_exists($cache_location)) {
+        if (! file_exists($cache_location)) {
             // It didn't, so make it
             mkdir($cache_location, 0777);
 
@@ -109,7 +112,8 @@ class MailcoachRssReader {
      *
      * @return mixed
      */
-    private function readConfig($configuration, $name, $default) {
+    private function readConfig($configuration, $name, $default)
+    {
         return Config::get('feed-reader.profiles.' . $configuration . '.' . $name, $default);
     }
 }
