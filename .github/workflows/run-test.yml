@@ -48,7 +48,7 @@ jobs:
                     -   laravel: 7.*
                         testbench: 5.*
                         allow-failures: false
-                    - laravel: 8.*
+                    -   laravel: 8.*
                         testbench: 6.*
                         allow-failures: true
 
