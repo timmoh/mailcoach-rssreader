@@ -53,7 +53,7 @@ jobs:
                         allow-failures: true
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
-        continue-on-error:
+        continue-on-error: ${{ matrix.allow-failures }}
 
         steps:
             -   name: Checkout code
