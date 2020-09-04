@@ -68,7 +68,14 @@ Used XML:
 ```
 Replacer Code:
 ```html
-<div>::RSSBLOCK|https://www.xyz.de/zxy.xml|::::RSSITEMSBLOCK|1::<span class="title"><a href="::RSSITEMURL::">::RSSITEMTITLE::</a></span><span class="date">::RSSITEMDATE:|y-m-d h:i|::</span><img src="::RSSITEMTHUMBNAILURL::"><span class="description">::RSSITEMDESCRIPTION::</span>::RSSITEMSBLOCKEND::::RSSBLOCKEND::</div>
+<div>
+    ::RSSBLOCK|https://www.xyz.de/zxy.xml|::::RSSITEMSBLOCK|1::
+    <span class="title"><a href="::RSSITEMURL::">::RSSITEMTITLE::</a></span>
+    <span class="date">::RSSITEMDATE:|y-m-d h:i|::</span>
+    <img src="::RSSITEMTHUMBNAILURL::">
+    <span class="description">::RSSITEMDESCRIPTION::</span>
+    ::RSSITEMSBLOCKEND::::RSSBLOCKEND::
+</div>
 ```
 Output:
 ```html
