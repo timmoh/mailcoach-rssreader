@@ -1,4 +1,8 @@
 # Mailcoach RSS Reader / Replacer
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/timmoh/mailcoach-rssreader.svg?style=flat-square)](https://packagist.org/packages/timmoh/mailcoach-rssreader)
+![Test Status](https://img.shields.io/github/workflow/status/timmoh/mailcoach-rssreader/run-tests?label=tests)
+![Code Style Status](https://img.shields.io/github/workflow/status/timmoh/mailcoach-rssreader/Check%20&%20fix%20styling?label=code%20style)
+[![Total Downloads](https://img.shields.io/packagist/dt/timmoh/mailcoach-rssreader.svg?style=flat-square)](https://packagist.org/packages/timmoh/mailcoach-rssreader)
 
 RSS Feed Reader & Replacer for Spatie's awesome Mailcoach (https://mailcoach.app/)
 Fetch, parse and add automatically RSS Feed to your campaign 
