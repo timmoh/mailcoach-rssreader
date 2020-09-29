@@ -48,8 +48,7 @@ jobs:
                     -   laravel: 8.*
                         testbench: 6.*
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }}
-        continue-on-error: ${{ matrix.allow-failures }}
+        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
         steps:
             -   name: Checkout code
