@@ -20,7 +20,10 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        /*$campaign = (new Campaign())->create([
+            'html' => $html,
+        ]);*/
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -42,7 +45,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -61,7 +64,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -80,7 +83,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -99,7 +102,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -118,7 +121,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -137,7 +140,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -158,7 +161,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -179,7 +182,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 
@@ -207,7 +210,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
 

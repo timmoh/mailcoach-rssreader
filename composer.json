@@ -26,8 +26,8 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4",
-        "illuminate/support": "^7.12|^8.0",
-        "spatie/laravel-mailcoach": "^2.0.0|^3.0.0",
+        "illuminate/support": "^8.0",
+        "spatie/laravel-mailcoach": "^3.0.0",
         "simplepie/simplepie": "^1.5"
     },
     "require-dev": {

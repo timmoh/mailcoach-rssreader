@@ -7,6 +7,12 @@
 RSS Feed Reader & Replacer for Spatie's awesome Mailcoach (https://mailcoach.app/)
 Fetch, parse and add automatically RSS Feed to your campaign 
 
+## Version / Tagging
+Tagging & Version goes along with mailcoach
+
+- Mailcoach v3 = Mailcoach RSS Reader (master/3.x)
+- Mailcoach v2 = Mailcoach RSS Reader (2.x)
+
 ## Installation
 
 You can install the package via composer:
