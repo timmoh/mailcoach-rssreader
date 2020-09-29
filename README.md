@@ -11,7 +11,6 @@ Fetch, parse and add automatically RSS Feed to your campaign
 Tagging & Version goes along with mailcoach
 
 - Mailcoach v3 = Mailcoach RSS Reader (master/3.x)
-- Mailcoach v2 = Mailcoach RSS Reader (2.x)
 
 ## Installation
 
