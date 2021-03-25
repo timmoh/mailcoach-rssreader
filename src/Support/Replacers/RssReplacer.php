@@ -7,11 +7,12 @@ use Illuminate\Support\Str;
 use SimplePie;
 use SimplePie_Enclosure;
 use SimplePie_Item;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Support\Replacers\Replacer;
+
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText;
 use Timmoh\MailcoachRssReader\Facades\MailcoachRssReader;
 
-class RssReplacer implements Replacer
+class RssReplacer implements ReplacerWithHelpText
 {
     public function helpText(): array
     {
@@ -127,7 +128,7 @@ class RssReplacer implements Replacer
         //$text = str_ireplace('::RSSITEMAUTHOR::', $rssItem->get_author(), $text);
         $text = preg_replace_callback(
             '|(::RSSITEMAUTHOR::)|',
-            function ($treffer) use ($rssItem) {
+            function ($hit) use ($rssItem) {
                 $author = $rssItem->get_author();
                 if (! $author) {
                     return '';

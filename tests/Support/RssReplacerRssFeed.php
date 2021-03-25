@@ -2,8 +2,9 @@
 
 namespace Timmoh\MailcoachRssReader\Tests\Support;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Snapshots\MatchesSnapshots;
+use Timmoh\MailcoachRssReader\Support\Replacers\RssReplacer;
 
 class RssReplacerRssFeed extends ReplaceTestCase
 {
@@ -19,15 +20,13 @@ class RssReplacerRssFeed extends ReplaceTestCase
         $expectedHtml = $this->htmlbody($expectedContent);
         //$this->assertMatchesHtmlSnapshotWithoutWhitespace($expectedHtml);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = factory(Campaign::class)->create([
             'html' => $html,
         ]);
 
         $this->execute($campaign);
         $campaign->refresh();
-        $replacedhtml = $campaign->email_html;
-
         $this->assertHtmlWithoutWhitespace($expectedHtml, $campaign->email_html);
     }
 
@@ -39,12 +38,12 @@ class RssReplacerRssFeed extends ReplaceTestCase
         $html = "::RSSBLOCK|" . $this->xmlUrl . "|::TextInner::RSSBLOCKEND::";
         $expectedContent = "TextInner";
         $expectedHtml = $this->htmlbody($expectedContent);
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = factory(Campaign::class)->create([
             'html' => $html,
         ]);
 
-        $this->replacerClasses = [\Timmoh\MailcoachRssReader\Support\Replacers\RssReplacer::class];
+        $this->replacerClasses = [RssReplacer::class];
         $this->execute($campaign);
         $campaign->refresh();
         $this->assertHtmlWithoutWhitespace($expectedHtml, $campaign->email_html);
@@ -59,7 +58,7 @@ class RssReplacerRssFeed extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("title")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = factory(Campaign::class)->create([
             'html' => $html,
         ]);
@@ -78,7 +77,7 @@ class RssReplacerRssFeed extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("description")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = factory(Campaign::class)->create([
             'html' => $html,
         ]);
@@ -97,7 +96,7 @@ class RssReplacerRssFeed extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("image")->item(0)->getElementsByTagName("url")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = factory(Campaign::class)->create([
             'html' => $html,
         ]);
@@ -116,7 +115,7 @@ class RssReplacerRssFeed extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("link")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = factory(Campaign::class)->create([
             'html' => $html,
         ]);

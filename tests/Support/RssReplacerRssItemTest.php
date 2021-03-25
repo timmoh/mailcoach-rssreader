@@ -3,7 +3,7 @@
 namespace Timmoh\MailcoachRssReader\Tests\Support;
 
 use Carbon\Carbon;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class RssReplacerRssItemTest extends ReplaceTestCase
@@ -19,10 +19,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("item")->item(0)->getElementsByTagName("title")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
-        /*$campaign = (new Campaign())->create([
-            'html' => $html,
-        ]);*/
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -44,7 +41,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
                 ->item(0)->nodeValue . $this->xml->getElementsByTagName("item")->item(1)->getElementsByTagName("title")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -63,7 +60,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("item")->item(0)->getElementsByTagName("link")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -82,7 +79,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("item")->item(0)->getElementsByTagName("author")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -101,7 +98,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("item")->item(0)->getElementsByTagName("category")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -120,7 +117,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("item")->item(0)->getElementsByTagName("description")->item(0)->nodeValue;
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -139,7 +136,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $this->xml->getElementsByTagName("item")->item(0)->getElementsByTagName("enclosure")->item(0)->getAttribute('url');
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -160,7 +157,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $date->format($dateFormat);
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -181,7 +178,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = $date->format($dateFormat);
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
@@ -209,7 +206,7 @@ class RssReplacerRssItemTest extends ReplaceTestCase
         $expectedContent = '<span class="title"><a href="'.$url.'">' . $title . '</a></span><span class="date">' . $date->format($dateformat) . '</span><span class="description">' . $description . '</span><span class="author">' . $author . '</span>';
         $expectedHtml = $this->htmlbody($expectedContent);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var Campaign */
         $campaign = (new Campaign())->create([
             'html' => $html,
         ]);
