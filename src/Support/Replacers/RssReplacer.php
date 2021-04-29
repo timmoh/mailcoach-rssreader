@@ -8,10 +8,10 @@ use SimplePie;
 use SimplePie_Enclosure;
 use SimplePie_Item;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Support\Replacers\Replacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 use Timmoh\MailcoachRssReader\Facades\MailcoachRssReader;
 
-class RssReplacer implements Replacer
+class RssReplacer implements CampaignReplacer
 {
     public function helpText(): array
     {
